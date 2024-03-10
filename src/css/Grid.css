@@ -1,0 +1,15 @@
+.grid {
+	display: grid;
+	grid-template-columns: repeat(4, 4fr);
+	border: 1px solid black;
+}
+
+.cell {
+	width: 80px;
+	height: 80px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 1px solid black;
+	font-size: x-large;
+}
