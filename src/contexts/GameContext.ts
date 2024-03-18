@@ -14,8 +14,8 @@ export const initialGameState: GameState = {
   ],
   status: "ongoing",
 };
-generateNewCell(initialGameState.board)
-generateNewCell(initialGameState.board)
+generateNewCell(initialGameState.board);
+generateNewCell(initialGameState.board);
 
 export const gameReducer = (
   state: GameState,
@@ -249,8 +249,9 @@ function isLeftPossible(board: Board): boolean {
     for (let colIndex = 1; colIndex < board[0].length; colIndex++) {
       const cell = board[rowIndex][colIndex];
       const leftCell = board[rowIndex][colIndex - 1];
-      if (cell === leftCell) return true;
-      if (cell !== null && leftCell === null) return true;
+      if (cell !== null) {
+        if (cell === leftCell || leftCell === null) return true;
+      }
     }
   }
   return false;
@@ -260,8 +261,9 @@ function isRightPossible(board: Board): boolean {
     for (let colIndex = board[0].length - 1; colIndex >= 0; colIndex--) {
       const cell = board[rowIndex][colIndex];
       const rightCell = board[rowIndex][colIndex + 1];
-      if (cell === rightCell) return true;
-      if (cell !== null && rightCell === null) return true;
+      if (cell !== null) {
+        if (cell === rightCell || rightCell === null) return true;
+      }
     }
   }
   return false;
@@ -271,8 +273,9 @@ function isUpPossible(board: Board): boolean {
     for (let colIndex = 0; colIndex < board[0].length; colIndex++) {
       const cell = board[rowIndex][colIndex];
       const upCell = board[rowIndex - 1][colIndex];
-      if (cell === upCell) return true;
-      if (cell !== null && upCell === null) return true;
+      if (cell !== null) {
+        if (cell === upCell || upCell === null) return true;
+      }
     }
   }
   return false;
@@ -282,8 +285,9 @@ function isDownPossible(board: Board): boolean {
     for (let colIndex = 0; colIndex < board[0].length; colIndex++) {
       const cell = board[rowIndex][colIndex];
       const downCell = board[rowIndex + 1][colIndex];
-      if (cell === downCell) return true;
-      if (cell !== null && downCell === null) return true;
+      if (cell !== null) {
+        if (cell === downCell || downCell === null) return true;
+      }
     }
   }
   return false;
