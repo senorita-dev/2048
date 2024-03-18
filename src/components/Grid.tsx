@@ -1,24 +1,55 @@
+import { useEffect, useContext } from "react";
+import { GameContext } from "../contexts/GameContext";
 import "../css/Grid.css";
 
 const Grid = () => {
-  return <div className="grid">
-		<div className="cell">1</div>
-		<div className="cell">2</div>
-		<div className="cell">3</div>
-		<div className="cell">4</div>
-		<div className="cell">5</div>
-		<div className="cell">6</div>
-		<div className="cell">7</div>
-		<div className="cell">8</div>
-		<div className="cell">9</div>
-		<div className="cell">10</div>
-		<div className="cell">11</div>
-		<div className="cell">12</div>
-		<div className="cell">13</div>
-		<div className="cell">14</div>
-		<div className="cell">15</div>
-		<div className="cell">16</div>
-	</div>;
+  const [{ board, status }, setGameStatus] = useContext(GameContext);
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.repeat) return;
+      switch (event.key) {
+        case "ArrowUp":
+          setGameStatus("moveUp");
+          break;
+        case "ArrowDown":
+          setGameStatus("moveDown");
+          break;
+        case "ArrowLeft":
+          setGameStatus("moveLeft");
+          break;
+        case "ArrowRight":
+          setGameStatus("moveRight");
+          break;
+        default:
+          break;
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+  switch (status) {
+    case "ongoing":
+      break;
+    case "won":
+      break;
+    case "lost":
+      break;
+    default:
+      throw new Error("Invalid status");
+  }
+  return (
+    <div className="grid">
+      {board.map((row, rowIndex) =>
+        row.map((cell, colIndex) => (
+          <div key={`${rowIndex}-${colIndex}`} className="cell">
+            {cell}
+          </div>
+        ))
+      )}
+    </div>
+  );
 };
 
 export default Grid;

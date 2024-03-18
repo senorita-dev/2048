@@ -1,0 +1,30 @@
+.direction-button::after {
+	font-family: monospace;
+	font-size: xx-large;
+	font-weight: bold;
+}
+
+#left-button::after {
+	content: "<";
+}
+
+#right-button::after {
+	content: ">";
+}
+
+#up-button::after {
+	content: "<";
+}
+
+#down-button::after {
+	content: ">";
+}
+
+#down-button {
+	transform: rotate(90deg);
+}
+
+#up-button {
+	transform: rotate(90deg);
+}
+
