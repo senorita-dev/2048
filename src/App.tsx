@@ -7,12 +7,7 @@ import {
   gameReducer,
 } from "./contexts/GameContext";
 import { useReducer } from "react";
-import {
-  UpButton,
-  DownButton,
-  LeftButton,
-  RightButton,
-} from "./components/DirectionButtons";
+import BottomControls from "./components/BottomControls";
 
 function App() {
   const [gameState, setGameState] = useReducer(gameReducer, initialGameState);
@@ -23,12 +18,7 @@ function App() {
           <NewGameButton />
         </div>
         <Grid />
-        <div>
-          <UpButton />
-          <DownButton />
-          <LeftButton />
-          <RightButton />
-        </div>
+        <BottomControls/>
       </GameContext.Provider>
     </div>
   );
