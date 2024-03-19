@@ -5,14 +5,17 @@ import DownChevron from "../assets/down-chevron.svg?react";
 import LeftChevron from "../assets/left-chevron.svg?react";
 import RightChevron from "../assets/right-chevron.svg?react";
 import "../css/DirectionButtons.css";
+import { ServiceContext } from "../modules/contexts/Context";
 
 export const UpButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const [, setGameState] = useContext(GameContext);
+	const {gameManagerService} = useContext(ServiceContext)
+  // const [, setGameState] = useContext(GameContext);
   return (
     <button
       id="up-button"
       className="direction-button"
-      onClick={() => setGameState("moveUp")}
+      // onClick={() => setGameState("moveUp")}
+			onClick={() => gameManagerService.setTest('up button')}
       {...props}
     >
       <UpChevron />

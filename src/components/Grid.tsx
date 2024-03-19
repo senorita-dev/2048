@@ -1,9 +1,12 @@
 import { useEffect, useContext } from "react";
 import { GameContext } from "../contexts/GameContext";
 import "../css/Grid.css";
+import { ServiceContext } from "../modules/contexts/Context";
 
 const Grid = () => {
   const [{ board, status }, setGameStatus] = useContext(GameContext);
+	const {gameManagerService} = useContext(ServiceContext)
+	console.log('Grid.tsx gameManagerService updated', gameManagerService.getTest())
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.repeat) return;
