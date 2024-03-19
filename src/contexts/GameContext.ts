@@ -1,21 +1,19 @@
 import { createContext } from "react";
 
-interface GameState {
-  board: Board;
-  status: GameStatus;
-}
+const initialBoard: Board = [
+  [null, null, null, null],
+  [null, null, null, null],
+  [null, null, null, null],
+  [null, null, null, null],
+];
+generateNewCell(initialBoard);
+generateNewCell(initialBoard);
 
 export const initialGameState: GameState = {
-  board: [
-    [null, null, null, null],
-    [null, null, null, null],
-    [null, null, null, null],
-    [null, null, null, null],
-  ],
+  board: initialBoard,
   status: "ongoing",
+  canMove: getCanMove(initialBoard),
 };
-generateNewCell(initialGameState.board);
-generateNewCell(initialGameState.board);
 
 export const gameReducer = (
   state: GameState,
@@ -33,7 +31,11 @@ export const gameReducer = (
     ];
     generateNewCell(newBoard);
     generateNewCell(newBoard);
-    return { board: newBoard, status: "ongoing" };
+    return {
+      board: newBoard,
+      status: "ongoing",
+      canMove: getCanMove(newBoard),
+    };
   }
   if (status === "lost" || status === "won") return state;
   switch (action) {
@@ -56,9 +58,14 @@ export const gameReducer = (
     default:
       return state;
   }
-  if (isGameLost(newBoard)) return { board: newBoard, status: "lost" };
+	const newState: GameState = { board: newBoard, status: "ongoing", canMove: getCanMove(newBoard) };
+	if (Object.values(newState.canMove).every((value) => value === false)) {
+		newState.status = "lost";
+		return newState;
+	}
   generateNewCell(newBoard);
-  return { board: newBoard, status };
+	newState.canMove = getCanMove(newBoard);
+  return newState;
 };
 
 export const GameContext = createContext<
@@ -226,24 +233,6 @@ function moveRight(board: Board): Board {
   shiftCellsRight(board);
   return board;
 }
-function isGameLost(board: Board): boolean {
-  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-    for (let colIndex = 1; colIndex < board[0].length; colIndex++) {
-      if (board[rowIndex][colIndex] === board[rowIndex][colIndex - 1]) {
-        return false;
-      }
-    }
-  }
-  for (let colIndex = 0; colIndex < board[0].length; colIndex++) {
-    for (let rowIndex = 1; rowIndex < board.length; rowIndex++) {
-      if (board[rowIndex][colIndex] === board[rowIndex - 1][colIndex]) {
-        return false;
-      }
-    }
-  }
-  const emptyCells = getEmptyCells(board);
-  return emptyCells.length === 0;
-}
 function isLeftPossible(board: Board): boolean {
   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
     for (let colIndex = 1; colIndex < board[0].length; colIndex++) {
@@ -291,4 +280,12 @@ function isDownPossible(board: Board): boolean {
     }
   }
   return false;
+}
+function getCanMove(board: Board): LegalMoveState {
+  return {
+    up: isUpPossible(board),
+    down: isDownPossible(board),
+    left: isLeftPossible(board),
+    right: isRightPossible(board),
+  };
 }

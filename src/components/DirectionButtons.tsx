@@ -7,12 +7,14 @@ import RightChevron from "../assets/right-chevron.svg?react";
 import "../css/DirectionButtons.css";
 
 export const UpButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const [, setGameState] = useContext(GameContext);
+  const [{ canMove, status }, setGameState] = useContext(GameContext);
+  const disabled = !canMove.up || status === "lost";
   return (
     <button
       id="up-button"
       className="direction-button"
       onClick={() => setGameState("moveUp")}
+      disabled={disabled}
       {...props}
     >
       <UpChevron />
@@ -21,12 +23,14 @@ export const UpButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
 };
 
 export const DownButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const [, setGameState] = useContext(GameContext);
+  const [{ canMove, status }, setGameState] = useContext(GameContext);
+  const disabled = !canMove.down || status === "lost";
   return (
     <button
       id="down-button"
       className="direction-button"
       onClick={() => setGameState("moveDown")}
+      disabled={disabled}
       {...props}
     >
       <DownChevron />
@@ -35,12 +39,14 @@ export const DownButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
 };
 
 export const LeftButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const [, setGameState] = useContext(GameContext);
+  const [{ canMove, status }, setGameState] = useContext(GameContext);
+	const disabled = !canMove.left || status === "lost";
   return (
     <button
       id="left-button"
       className="direction-button"
       onClick={() => setGameState("moveLeft")}
+			disabled={disabled}
       {...props}
     >
       <LeftChevron />
@@ -49,12 +55,14 @@ export const LeftButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
 };
 
 export const RightButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const [, setGameState] = useContext(GameContext);
+  const [{ canMove, status }, setGameState] = useContext(GameContext);
+	const disabled = !canMove.right || status === "lost";
   return (
     <button
       id="right-button"
       className="direction-button"
       onClick={() => setGameState("moveRight")}
+			disabled={disabled}
       {...props}
     >
       <RightChevron />

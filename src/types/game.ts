@@ -9,3 +9,15 @@ type Board = [
 ];
 type GameStatus = 'ongoing' | 'won' | 'lost';
 type GameAction = 'newGame' | 'moveUp' | 'moveDown' | 'moveLeft' | 'moveRight';
+type LegalMoveState = {
+	up: boolean;
+	down: boolean;
+	left: boolean;
+	right: boolean;
+};
+interface GameState {
+  board: Board;
+  status: GameStatus;
+	canMove: LegalMoveState;
+}
+
