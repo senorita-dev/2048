@@ -3,7 +3,8 @@ import { GameContext } from '../contexts/GameContext'
 import '../css/Grid.css'
 
 const Grid = () => {
-  const [{ board, status, newCells, mergedCells }, setGameStatus] = useContext(GameContext)
+  const [{ board, status, newCells, mergedCells, movedCells }, setGameStatus] =
+    useContext(GameContext)
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.repeat) return
@@ -43,6 +44,7 @@ const Grid = () => {
     <div className="grid">
       {board.map((row, rowIndex) =>
         row.map((cell, colIndex) => {
+          let transform
           let className = 'cell'
           if (newCells.find(([row, col]) => row === rowIndex && col === colIndex)) {
             className += ' cell-appear'
@@ -50,9 +52,20 @@ const Grid = () => {
           if (mergedCells.find(([row, col]) => row === rowIndex && col === colIndex)) {
             className += ' cell-merged'
           }
+          const prevPosition = movedCells.find(
+            (movedCell) => movedCell[2] === rowIndex && movedCell[3] === colIndex,
+          )
+          if (prevPosition !== undefined) {
+            const [prevRowIndex, prevColIndex] = prevPosition
+            const [rowDiff, colDiff] = [prevRowIndex - rowIndex, prevColIndex - colIndex]
+            transform = `translate(${colDiff * 100}%, ${rowDiff * 100}%)`
+            className += ' cell-moved'
+          }
           return (
-            <div key={`${rowIndex}-${colIndex}`} className={className}>
-              <span>{cell}</span>
+            <div key={`${rowIndex}-${colIndex}`} className='cell-container'>
+              <div className={className} style={{ transform }}>
+                <span>{cell}</span>
+              </div>
             </div>
           )
         }),

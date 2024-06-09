@@ -1,20 +1,26 @@
 .grid {
 	display: grid;
 	grid-template-columns: repeat(4, 4fr);
-	border: 1px solid black;
+	outline: 1.5px solid black;
+}
+
+.cell-container {
+	width: 80px;
+	height: 80px;
+	font-size: x-large;
+	outline: solid 1px black;
 }
 
 .cell {
-	width: 80px;
-	height: 80px;
+	width: 100%;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	border: 1px solid black;
-	font-size: x-large;
+	outline: solid 1px black;
 }
 
-.cell-appear>span {
+.cell-appear > span {
 	animation: cellAppear 0.2s ease-in-out
 }
 
@@ -28,7 +34,7 @@
 	}
 }
 
-.cell-merged>span {
+.cell-merged > span {
 	animation: cellMerged 0.2s ease-in-out;
 }
 
@@ -43,5 +49,15 @@
 
 	100% {
 		transform: scale(1);
+	}
+}
+
+.cell-moved {
+	animation: slideCell 0.2s ease-out forwards;
+}
+
+@keyframes slideCell {
+	100% {
+		transform: translate(0, 0);
 	}
 }
