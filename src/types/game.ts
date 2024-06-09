@@ -20,5 +20,6 @@ interface GameState {
   status: GameStatus;
 	canMove: LegalMoveState;
   newCells: [number, number][]
+  mergedCells: [number, number][]
 }
 
