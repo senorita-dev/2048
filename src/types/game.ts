@@ -21,4 +21,5 @@ interface GameState {
   canMove: LegalMoveState
   newCells: [number, number][]
   mergedCells: [number, number][]
+  movedCells: [number, number, number, number][]
 }

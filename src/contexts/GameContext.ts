@@ -15,6 +15,7 @@ export const initialGameState: GameState = {
   canMove: getCanMove(initialBoard),
   newCells: [cell1Position, cell2Position],
   mergedCells: [],
+  movedCells: [],
 }
 
 export const gameReducer = (state: GameState, action: GameAction): GameState => {
@@ -22,6 +23,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
   const copyBoard: Board = JSON.parse(JSON.stringify(board))
   let newBoard: Board
   let mergedCells: [number, number][]
+  let movedCells: [number, number, number, number][]
   if (action === 'newGame') {
     newBoard = [
       [null, null, null, null],
@@ -37,25 +39,26 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
       canMove: getCanMove(newBoard),
       newCells: [cell1Position, cell2Position],
       mergedCells: [],
+      movedCells: [],
     }
   }
   if (status === 'lost' || status === 'won') return state
   switch (action) {
     case 'moveUp':
       if (!isUpPossible(copyBoard)) return state
-      ;[newBoard, mergedCells] = moveUp(copyBoard)
+      ;[newBoard, mergedCells, movedCells] = moveUp(copyBoard)
       break
     case 'moveDown':
       if (!isDownPossible(copyBoard)) return state
-      ;[newBoard, mergedCells] = moveDown(copyBoard)
+      ;[newBoard, mergedCells, movedCells] = moveDown(copyBoard)
       break
     case 'moveLeft':
       if (!isLeftPossible(copyBoard)) return state
-      ;[newBoard, mergedCells] = moveLeft(copyBoard)
+      ;[newBoard, mergedCells, movedCells] = moveLeft(copyBoard)
       break
     case 'moveRight':
       if (!isRightPossible(copyBoard)) return state
-      ;[newBoard, mergedCells] = moveRight(copyBoard)
+      ;[newBoard, mergedCells, movedCells] = moveRight(copyBoard)
       break
     default:
       return state
@@ -66,6 +69,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
     canMove: getCanMove(newBoard),
     newCells: [],
     mergedCells: mergedCells,
+    movedCells: movedCells,
   }
   if (Object.values(newState.canMove).every((value) => value === false)) {
     newState.status = 'lost'
@@ -73,7 +77,6 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
   }
   const newCellPosition = generateNewCell(newBoard)
   newState.newCells = [newCellPosition]
-  newState.mergedCells = mergedCells
   newState.canMove = getCanMove(newBoard)
   return newState
 }
@@ -100,8 +103,9 @@ function generateNewCell(board: Board): [number, number] {
   board[rowIndex][colIndex] = Math.random() < 0.5 ? 2 : 4
   return [rowIndex, colIndex]
 }
-function moveUp(board: Board): [Board, [number, number][]] {
+function moveUp(board: Board): [Board, [number, number][], [number, number, number, number][]] {
   const mergedCells: [number, number][] = []
+  const movedCells: [number, number, number, number][] = []
   for (let rowIndex = 1; rowIndex < board.length; rowIndex++) {
     for (let colIndex = 0; colIndex < board[0].length; colIndex++) {
       const cell = board[rowIndex][colIndex]
@@ -120,19 +124,22 @@ function moveUp(board: Board): [Board, [number, number][]] {
         } else {
           board[rowIndex][colIndex] = null
           board[currRowIndex + 1][colIndex] = cell
+          movedCells.push([rowIndex, colIndex, currRowIndex + 1, colIndex])
         }
         break
       }
       if (currRowIndex === -1) {
         board[rowIndex][colIndex] = null
         board[0][colIndex] = cell
+        movedCells.push([rowIndex, colIndex, 0, colIndex])
       }
     }
   }
-  return [board, mergedCells]
+  return [board, mergedCells, movedCells]
 }
-function moveDown(board: Board): [Board, [number, number][]] {
+function moveDown(board: Board): [Board, [number, number][], [number, number, number, number][]] {
   const mergedCells: [number, number][] = []
+  const movedCells: [number, number, number, number][] = []
   for (let rowIndex = board.length - 2; rowIndex >= 0; rowIndex--) {
     for (let colIndex = 0; colIndex < board[0].length; colIndex++) {
       const cell = board[rowIndex][colIndex]
@@ -151,19 +158,22 @@ function moveDown(board: Board): [Board, [number, number][]] {
         } else {
           board[rowIndex][colIndex] = null
           board[currRowIndex - 1][colIndex] = cell
+          movedCells.push([rowIndex, colIndex, currRowIndex - 1, colIndex])
         }
         break
       }
       if (currRowIndex === board.length) {
         board[rowIndex][colIndex] = null
         board[board.length - 1][colIndex] = cell
+        movedCells.push([rowIndex, colIndex, board.length - 1, colIndex])
       }
     }
   }
-  return [board, mergedCells]
+  return [board, mergedCells, movedCells]
 }
-function moveLeft(board: Board): [Board, [number, number][]] {
+function moveLeft(board: Board): [Board, [number, number][], [number, number, number, number][]] {
   const mergedCells: [number, number][] = []
+  const movedCells: [number, number, number, number][] = []
   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
     for (let colIndex = 1; colIndex < board[0].length; colIndex++) {
       const cell = board[rowIndex][colIndex]
@@ -182,19 +192,22 @@ function moveLeft(board: Board): [Board, [number, number][]] {
         } else {
           board[rowIndex][colIndex] = null
           board[rowIndex][currColIndex + 1] = cell
+          movedCells.push([rowIndex, colIndex, rowIndex, currColIndex + 1])
         }
         break
       }
       if (currColIndex === -1) {
         board[rowIndex][colIndex] = null
         board[rowIndex][0] = cell
+        movedCells.push([rowIndex, colIndex, rowIndex, 0])
       }
     }
   }
-  return [board, mergedCells]
+  return [board, mergedCells, movedCells]
 }
-function moveRight(board: Board): [Board, [number, number][]] {
+function moveRight(board: Board): [Board, [number, number][], [number, number, number, number][]] {
   const mergedCells: [number, number][] = []
+  const movedCells: [number, number, number, number][] = []
   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
     for (let colIndex = board[0].length - 2; colIndex >= 0; colIndex--) {
       const cell = board[rowIndex][colIndex]
@@ -213,16 +226,18 @@ function moveRight(board: Board): [Board, [number, number][]] {
         } else {
           board[rowIndex][colIndex] = null
           board[rowIndex][currColIndex - 1] = cell
+          movedCells.push([rowIndex, colIndex, rowIndex, currColIndex - 1])
         }
         break
       }
       if (currColIndex === board[0].length) {
         board[rowIndex][colIndex] = null
         board[rowIndex][board[0].length - 1] = cell
+        movedCells.push([rowIndex, colIndex, rowIndex, board[0].length - 1])
       }
     }
   }
-  return [board, mergedCells]
+  return [board, mergedCells, movedCells]
 }
 function isLeftPossible(board: Board): boolean {
   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
