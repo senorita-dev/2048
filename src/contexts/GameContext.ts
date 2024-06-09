@@ -13,15 +13,17 @@ export const initialGameState: GameState = {
   board: initialBoard,
   status: 'ongoing',
   canMove: getCanMove(initialBoard),
+  score: 0,
   newCells: [cell1Position, cell2Position],
   mergedCells: [],
   movedCells: [],
 }
 
 export const gameReducer = (state: GameState, action: GameAction): GameState => {
-  const { board, status } = state
+  const { board, status, score } = state
   const copyBoard: Board = JSON.parse(JSON.stringify(board))
   let newBoard: Board
+  let mergeSum: number
   let mergedCells: [number, number][]
   let movedCells: [number, number, number, number][]
   if (action === 'newGame') {
@@ -37,6 +39,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
       board: newBoard,
       status: 'ongoing',
       canMove: getCanMove(newBoard),
+      score: 0,
       newCells: [cell1Position, cell2Position],
       mergedCells: [],
       movedCells: [],
@@ -46,19 +49,19 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
   switch (action) {
     case 'moveUp':
       if (!isUpPossible(copyBoard)) return state
-      ;[newBoard, mergedCells, movedCells] = moveUp(copyBoard)
+      ;[newBoard, mergeSum, mergedCells, movedCells] = moveUp(copyBoard)
       break
     case 'moveDown':
       if (!isDownPossible(copyBoard)) return state
-      ;[newBoard, mergedCells, movedCells] = moveDown(copyBoard)
+      ;[newBoard, mergeSum, mergedCells, movedCells] = moveDown(copyBoard)
       break
     case 'moveLeft':
       if (!isLeftPossible(copyBoard)) return state
-      ;[newBoard, mergedCells, movedCells] = moveLeft(copyBoard)
+      ;[newBoard, mergeSum, mergedCells, movedCells] = moveLeft(copyBoard)
       break
     case 'moveRight':
       if (!isRightPossible(copyBoard)) return state
-      ;[newBoard, mergedCells, movedCells] = moveRight(copyBoard)
+      ;[newBoard, mergeSum, mergedCells, movedCells] = moveRight(copyBoard)
       break
     default:
       return state
@@ -67,6 +70,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
     board: newBoard,
     status: 'ongoing',
     canMove: getCanMove(newBoard),
+    score: score + mergeSum,
     newCells: [],
     mergedCells: mergedCells,
     movedCells: movedCells,
@@ -103,7 +107,10 @@ function generateNewCell(board: Board): [number, number] {
   board[rowIndex][colIndex] = Math.random() < 0.5 ? 2 : 4
   return [rowIndex, colIndex]
 }
-function moveUp(board: Board): [Board, [number, number][], [number, number, number, number][]] {
+function moveUp(
+  board: Board,
+): [Board, number, [number, number][], [number, number, number, number][]] {
+  let mergeSum = 0
   const mergedCells: [number, number][] = []
   const movedCells: [number, number, number, number][] = []
   for (let rowIndex = 1; rowIndex < board.length; rowIndex++) {
@@ -120,6 +127,7 @@ function moveUp(board: Board): [Board, [number, number][], [number, number, numb
         if (cellAbove === cell) {
           board[rowIndex][colIndex] = null
           board[currRowIndex][colIndex] = cell * 2
+          mergeSum += cell * 2
           mergedCells.push([currRowIndex, colIndex])
         } else {
           board[rowIndex][colIndex] = null
@@ -135,9 +143,10 @@ function moveUp(board: Board): [Board, [number, number][], [number, number, numb
       }
     }
   }
-  return [board, mergedCells, movedCells]
+  return [board, mergeSum, mergedCells, movedCells]
 }
-function moveDown(board: Board): [Board, [number, number][], [number, number, number, number][]] {
+function moveDown(board: Board): [Board, number, [number, number][], [number, number, number, number][]] {
+  let mergeSum = 0
   const mergedCells: [number, number][] = []
   const movedCells: [number, number, number, number][] = []
   for (let rowIndex = board.length - 2; rowIndex >= 0; rowIndex--) {
@@ -154,6 +163,7 @@ function moveDown(board: Board): [Board, [number, number][], [number, number, nu
         if (cellBelow === cell) {
           board[rowIndex][colIndex] = null
           board[currRowIndex][colIndex] = cell * 2
+          mergeSum += cell * 2
           mergedCells.push([currRowIndex, colIndex])
         } else {
           board[rowIndex][colIndex] = null
@@ -169,9 +179,10 @@ function moveDown(board: Board): [Board, [number, number][], [number, number, nu
       }
     }
   }
-  return [board, mergedCells, movedCells]
+  return [board, mergeSum, mergedCells, movedCells]
 }
-function moveLeft(board: Board): [Board, [number, number][], [number, number, number, number][]] {
+function moveLeft(board: Board): [Board, number, [number, number][], [number, number, number, number][]] {
+  let mergeSum = 0
   const mergedCells: [number, number][] = []
   const movedCells: [number, number, number, number][] = []
   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
@@ -188,6 +199,7 @@ function moveLeft(board: Board): [Board, [number, number][], [number, number, nu
         if (cellLeft === cell) {
           board[rowIndex][colIndex] = null
           board[rowIndex][currColIndex] = cell * 2
+          mergeSum += cell * 2
           mergedCells.push([rowIndex, currColIndex])
         } else {
           board[rowIndex][colIndex] = null
@@ -203,9 +215,10 @@ function moveLeft(board: Board): [Board, [number, number][], [number, number, nu
       }
     }
   }
-  return [board, mergedCells, movedCells]
+  return [board, mergeSum, mergedCells, movedCells]
 }
-function moveRight(board: Board): [Board, [number, number][], [number, number, number, number][]] {
+function moveRight(board: Board): [Board, number, [number, number][], [number, number, number, number][]] {
+  let mergeSum = 0
   const mergedCells: [number, number][] = []
   const movedCells: [number, number, number, number][] = []
   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
@@ -222,6 +235,7 @@ function moveRight(board: Board): [Board, [number, number][], [number, number, n
         if (cellRight === cell) {
           board[rowIndex][colIndex] = null
           board[rowIndex][currColIndex] = cell * 2
+          mergeSum += cell * 2
           mergedCells.push([rowIndex, currColIndex])
         } else {
           board[rowIndex][colIndex] = null
@@ -237,7 +251,7 @@ function moveRight(board: Board): [Board, [number, number][], [number, number, n
       }
     }
   }
-  return [board, mergedCells, movedCells]
+  return [board, mergeSum, mergedCells, movedCells]
 }
 function isLeftPossible(board: Board): boolean {
   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {

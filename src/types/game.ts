@@ -19,6 +19,7 @@ interface GameState {
   board: Board
   status: GameStatus
   canMove: LegalMoveState
+  score: number
   newCells: [number, number][]
   mergedCells: [number, number][]
   movedCells: [number, number, number, number][]
