@@ -3,7 +3,7 @@ import { GameContext } from "../contexts/GameContext";
 import "../css/Grid.css";
 
 const Grid = () => {
-  const [{ board, status, newCells }, setGameStatus] = useContext(GameContext);
+  const [{ board, status, newCells, mergedCells }, setGameStatus] = useContext(GameContext);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.repeat) return;
@@ -47,7 +47,12 @@ const Grid = () => {
           if (
             newCells.find(([row, col]) => row === rowIndex && col === colIndex)
           ) {
-            className = "cell cell-appear";
+            className += " cell-appear";
+          }
+          if (
+            mergedCells.find(([row, col]) => row === rowIndex && col === colIndex)
+          ) {
+            className += " cell-merged";
           }
           return (
             <div key={`${rowIndex}-${colIndex}`} className={className}>

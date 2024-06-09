@@ -14,13 +14,31 @@
 	font-size: x-large;
 }
 
-.cell-appear > span {
+.cell-appear>span {
 	animation: cellAppear 0.2s ease-in-out
 }
 
 @keyframes cellAppear {
 	0% {
 		transform: scale(0);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
+
+.cell-merged>span {
+	animation: cellMerged 0.2s ease-in-out;
+}
+
+@keyframes cellMerged {
+	0% {
+		transform: scale(0);
+	}
+
+	50% {
+		transform: scale(1.2);
 	}
 
 	100% {
