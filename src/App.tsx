@@ -4,6 +4,7 @@ import NewGameButton from './components/NewGameButton'
 import { GameContext, initialGameState, gameReducer } from './contexts/GameContext'
 import { useReducer } from 'react'
 import BottomControls from './components/BottomControls'
+import Score from './components/Score'
 
 function App() {
   const [gameState, setGameState] = useReducer(gameReducer, initialGameState)
@@ -13,6 +14,7 @@ function App() {
         <div>
           <NewGameButton />
         </div>
+        <Score />
         <Grid />
         <BottomControls />
       </GameContext.Provider>
