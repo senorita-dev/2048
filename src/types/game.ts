@@ -19,5 +19,6 @@ interface GameState {
   board: Board;
   status: GameStatus;
 	canMove: LegalMoveState;
+  newCells: [number, number][]
 }
 

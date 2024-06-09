@@ -6,13 +6,14 @@ const initialBoard: Board = [
   [null, null, null, null],
   [null, null, null, null],
 ];
-generateNewCell(initialBoard);
-generateNewCell(initialBoard);
+const cell1Position = generateNewCell(initialBoard);
+const cell2Position = generateNewCell(initialBoard);
 
 export const initialGameState: GameState = {
   board: initialBoard,
   status: "ongoing",
   canMove: getCanMove(initialBoard),
+  newCells: [cell1Position, cell2Position]
 };
 
 export const gameReducer = (
@@ -29,12 +30,13 @@ export const gameReducer = (
       [null, null, null, null],
       [null, null, null, null],
     ];
-    generateNewCell(newBoard);
-    generateNewCell(newBoard);
+    const cell1Position = generateNewCell(newBoard);
+    const cell2Position = generateNewCell(newBoard);
     return {
       board: newBoard,
       status: "ongoing",
       canMove: getCanMove(newBoard),
+      newCells: [cell1Position, cell2Position]
     };
   }
   if (status === "lost" || status === "won") return state;
@@ -58,13 +60,19 @@ export const gameReducer = (
     default:
       return state;
   }
-	const newState: GameState = { board: newBoard, status: "ongoing", canMove: getCanMove(newBoard) };
-	if (Object.values(newState.canMove).every((value) => value === false)) {
-		newState.status = "lost";
-		return newState;
-	}
-  generateNewCell(newBoard);
-	newState.canMove = getCanMove(newBoard);
+  const newState: GameState = {
+    board: newBoard,
+    status: "ongoing",
+    canMove: getCanMove(newBoard),
+    newCells: [],
+  };
+  if (Object.values(newState.canMove).every((value) => value === false)) {
+    newState.status = "lost";
+    return newState;
+  }
+  const newCellPosition = generateNewCell(newBoard);
+  newState.newCells = [newCellPosition]
+  newState.canMove = getCanMove(newBoard);
   return newState;
 };
 
@@ -83,11 +91,12 @@ function getEmptyCells(board: Board): [number, number][] {
   });
   return emptyCells;
 }
-function generateNewCell(board: Board): void {
+function generateNewCell(board: Board): [number, number] {
   const emptyCells = getEmptyCells(board);
   const [rowIndex, colIndex] =
     emptyCells[Math.floor(Math.random() * emptyCells.length)];
   board[rowIndex][colIndex] = Math.random() < 0.5 ? 2 : 4;
+  return [rowIndex, colIndex]
 }
 function shiftCellsUp(board: Board) {
   for (let rowIndex = 1; rowIndex < board.length; rowIndex++) {
