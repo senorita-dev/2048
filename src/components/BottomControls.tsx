@@ -1,9 +1,4 @@
-import {
-  UpButton,
-  DownButton,
-  LeftButton,
-  RightButton,
-} from "./DirectionButtons";
+import { UpButton, DownButton, LeftButton, RightButton } from './DirectionButtons'
 
 const BottomControls = () => {
   return (
@@ -13,7 +8,7 @@ const BottomControls = () => {
       <LeftButton />
       <RightButton />
     </div>
-  );
-};
+  )
+}
 
-export default BottomControls;
+export default BottomControls
