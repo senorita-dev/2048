@@ -66,7 +66,7 @@ const Grid = () => {
           return (
             <div key={`${rowIndex}-${colIndex}`} className="cell-container">
               <div className={className} style={{ transform }}>
-                <div className="cell-content">{cell}</div>
+                {cell}
               </div>
             </div>
           )

@@ -1,34 +1,29 @@
 .grid {
 	display: grid;
 	grid-template-columns: repeat(4, 4fr);
-	outline: 1.5px solid black;
+	outline: 1px solid black;
 }
 
 .cell-container {
 	width: 80px;
 	height: 80px;
 	font-size: x-large;
-	outline: solid 1px black;
+	border: solid 1px black;
+	box-sizing: border-box;
 }
 
 .cell {
 	width: 100%;
 	height: 100%;
-	outline: solid 1px black;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	--cell-appear-duration: 0.2s;
 	--cell-merge-duration: 0.2s;
 	--cell-slide-duration: 0.2s;
 	--cell-appear-delay: 0s;
 	--cell-merge-delay: 0s;
 	--cell-slide-delay: 0s;
-}
-
-.cell>.cell-content {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 }
 
 .cell-appear {
