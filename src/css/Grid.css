@@ -20,7 +20,7 @@
 	outline: solid 1px black;
 }
 
-.cell-appear > span {
+.cell-appear>span {
 	animation: cellAppear 0.2s ease-in-out
 }
 
@@ -34,7 +34,7 @@
 	}
 }
 
-.cell-merged > span {
+.cell-merged>span {
 	animation: cellMerged 0.2s ease-in-out;
 }
 
@@ -60,4 +60,56 @@
 	100% {
 		transform: translate(0, 0);
 	}
+}
+
+.cell-2 {
+	background-color: #eee4da
+}
+
+.cell-4 {
+	background-color: #eee1c9;
+}
+
+.cell-8 {
+	background-color: #f3b27a;
+}
+
+.cell-16 {
+	background-color: #f69664;
+	color: #ffffff;
+}
+
+.cell-32 {
+	background-color: #f77c5f;
+	color: #ffffff;
+}
+
+.cell-64 {
+	background-color: #f75f3b;
+	color: #ffffff;
+}
+
+.cell-128 {
+	background-color: #edd073;
+	color: #ffffff;
+}
+
+.cell-256 {
+	background-color: #edcc62;
+	color: #ffffff;
+}
+
+.cell-512 {
+	background-color: #edc950;
+	color: #ffffff;
+}
+
+.cell-1024 {
+	background-color: #edc53f;
+	color: #ffffff;
+}
+
+.cell-2048 {
+	background-color: #edc22e;
+	color: #ffffff;
 }

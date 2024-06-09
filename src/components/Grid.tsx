@@ -61,6 +61,9 @@ const Grid = () => {
             transform = `translate(${colDiff * 100}%, ${rowDiff * 100}%)`
             className += ' cell-moved'
           }
+          if (cell !== null) {
+            className += ` cell-${cell}`
+          }
           return (
             <div key={`${rowIndex}-${colIndex}`} className='cell-container'>
               <div className={className} style={{ transform }}>
