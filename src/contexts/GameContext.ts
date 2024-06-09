@@ -100,180 +100,128 @@ function generateNewCell(board: Board): [number, number] {
   board[rowIndex][colIndex] = Math.random() < 0.5 ? 2 : 4
   return [rowIndex, colIndex]
 }
-function shiftCellsUp(board: Board) {
-  for (let rowIndex = 1; rowIndex < board.length; rowIndex++) {
-    const row = board[rowIndex]
-    row.forEach((cell, colIndex) => {
-      if (cell === null) return
-      let i = rowIndex - 1
-      for (i; i >= 0; i--) {
-        const cellAbove = board[i][colIndex]
-        if (cellAbove !== null) {
-          board[rowIndex][colIndex] = null
-          board[i + 1][colIndex] = cell
-          break
-        }
-        if (i === 0) {
-          board[rowIndex][colIndex] = null
-          board[i][colIndex] = cell
-        }
-      }
-    })
-  }
-}
 function moveUp(board: Board): [Board, [number, number][]] {
   const mergedCells: [number, number][] = []
-  shiftCellsUp(board)
   for (let rowIndex = 1; rowIndex < board.length; rowIndex++) {
-    const row = board[rowIndex]
-    row.forEach((cell, colIndex) => {
-      if (cell === null) return
-      if (cell === board[rowIndex - 1][colIndex]) {
-        board[rowIndex - 1][colIndex] = cell * 2
-        board[rowIndex][colIndex] = null
-        let currRowIndex = rowIndex
-        while (currRowIndex > 0) {
-          const cellAbove = board[currRowIndex][colIndex]
-          if (cellAbove !== null) break
+    for (let colIndex = 0; colIndex < board[0].length; colIndex++) {
+      const cell = board[rowIndex][colIndex]
+      if (cell === null) continue
+      let currRowIndex = rowIndex - 1
+      while (currRowIndex >= 0) {
+        const cellAbove = board[currRowIndex][colIndex]
+        if (cellAbove === null) {
           currRowIndex -= 1
+          continue
         }
-        mergedCells.push([currRowIndex, colIndex])
+        if (cellAbove === cell) {
+          board[rowIndex][colIndex] = null
+          board[currRowIndex][colIndex] = cell * 2
+          mergedCells.push([currRowIndex, colIndex])
+        } else {
+          board[rowIndex][colIndex] = null
+          board[currRowIndex + 1][colIndex] = cell
+        }
+        break
       }
-    })
+      if (currRowIndex === -1) {
+        board[rowIndex][colIndex] = null
+        board[0][colIndex] = cell
+      }
+    }
   }
-  shiftCellsUp(board)
   return [board, mergedCells]
-}
-function shiftCellsDown(board: Board) {
-  for (let rowIndex = board.length - 2; rowIndex >= 0; rowIndex--) {
-    const row = board[rowIndex]
-    row.forEach((cell, colIndex) => {
-      if (cell === null) return
-      let i = rowIndex + 1
-      for (i; i <= board.length - 1; i++) {
-        const cellBelow = board[i][colIndex]
-        if (cellBelow !== null) {
-          board[rowIndex][colIndex] = null
-          board[i - 1][colIndex] = cell
-          break
-        }
-        if (i === board.length - 1) {
-          board[rowIndex][colIndex] = null
-          board[i][colIndex] = cell
-        }
-      }
-    })
-  }
 }
 function moveDown(board: Board): [Board, [number, number][]] {
   const mergedCells: [number, number][] = []
-  shiftCellsDown(board)
   for (let rowIndex = board.length - 2; rowIndex >= 0; rowIndex--) {
-    const row = board[rowIndex]
-    row.forEach((cell, colIndex) => {
-      if (cell === null) return
-      if (cell === board[rowIndex + 1][colIndex]) {
-        board[rowIndex + 1][colIndex] = cell * 2
-        board[rowIndex][colIndex] = null
-        let currRowIndex = rowIndex
-        while (currRowIndex < board.length) {
-          const cellBelow = board[currRowIndex][colIndex]
-          if (cellBelow !== null) break
-          currRowIndex += 1
-        }
-        mergedCells.push([currRowIndex, colIndex])
-      }
-    })
-  }
-  shiftCellsDown(board)
-  return [board, mergedCells]
-}
-function shiftCellsLeft(board: Board) {
-  board.forEach((row, rowIndex) => {
-    for (let colIndex = 1; colIndex < board[0].length; colIndex++) {
-      const cell = row[colIndex]
+    for (let colIndex = 0; colIndex < board[0].length; colIndex++) {
+      const cell = board[rowIndex][colIndex]
       if (cell === null) continue
-      let i = colIndex - 1
-      for (i; i >= 0; i--) {
-        const cellLeft = row[i]
-        if (cellLeft !== null) {
-          board[rowIndex][colIndex] = null
-          board[rowIndex][i + 1] = cell
-          break
+      let currRowIndex = rowIndex + 1
+      while (currRowIndex <= board.length - 1) {
+        const cellBelow = board[currRowIndex][colIndex]
+        if (cellBelow === null) {
+          currRowIndex += 1
+          continue
         }
-        if (i === 0) {
+        if (cellBelow === cell) {
           board[rowIndex][colIndex] = null
-          board[rowIndex][i] = cell
+          board[currRowIndex][colIndex] = cell * 2
+          mergedCells.push([currRowIndex, colIndex])
+        } else {
+          board[rowIndex][colIndex] = null
+          board[currRowIndex - 1][colIndex] = cell
         }
+        break
+      }
+      if (currRowIndex === board.length) {
+        board[rowIndex][colIndex] = null
+        board[board.length - 1][colIndex] = cell
       }
     }
-  })
+  }
+  return [board, mergedCells]
 }
 function moveLeft(board: Board): [Board, [number, number][]] {
   const mergedCells: [number, number][] = []
-  shiftCellsLeft(board)
-  board.forEach((row, rowIndex) => {
+  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
     for (let colIndex = 1; colIndex < board[0].length; colIndex++) {
-      const cell = row[colIndex]
+      const cell = board[rowIndex][colIndex]
       if (cell === null) continue
-      if (cell === row[colIndex - 1]) {
-        board[rowIndex][colIndex - 1] = cell * 2
-        board[rowIndex][colIndex] = null
-        let currColIndex = colIndex
-        while (currColIndex > 0) {
-          const cellLeft = board[rowIndex][currColIndex]
-          if (cellLeft !== null) break
+      let currColIndex = colIndex - 1
+      while (currColIndex >= 0) {
+        const cellLeft = board[rowIndex][currColIndex]
+        if (cellLeft === null) {
           currColIndex -= 1
+          continue
         }
-        mergedCells.push([rowIndex, currColIndex])
+        if (cellLeft === cell) {
+          board[rowIndex][colIndex] = null
+          board[rowIndex][currColIndex] = cell * 2
+          mergedCells.push([rowIndex, currColIndex])
+        } else {
+          board[rowIndex][colIndex] = null
+          board[rowIndex][currColIndex + 1] = cell
+        }
+        break
+      }
+      if (currColIndex === -1) {
+        board[rowIndex][colIndex] = null
+        board[rowIndex][0] = cell
       }
     }
-  })
-  shiftCellsLeft(board)
+  }
   return [board, mergedCells]
-}
-function shiftCellsRight(board: Board) {
-  board.forEach((row, rowIndex) => {
-    for (let colIndex = board[0].length - 2; colIndex >= 0; colIndex--) {
-      const cell = row[colIndex]
-      if (cell === null) continue
-      let i = colIndex + 1
-      for (i; i < board.length; i++) {
-        const cellRight = row[i]
-        if (cellRight !== null) {
-          board[rowIndex][colIndex] = null
-          board[rowIndex][i - 1] = cell
-          break
-        }
-        if (i === board.length - 1) {
-          board[rowIndex][colIndex] = null
-          board[rowIndex][i] = cell
-        }
-      }
-    }
-  })
 }
 function moveRight(board: Board): [Board, [number, number][]] {
   const mergedCells: [number, number][] = []
-  shiftCellsRight(board)
-  board.forEach((row, rowIndex) => {
+  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
     for (let colIndex = board[0].length - 2; colIndex >= 0; colIndex--) {
-      const cell = row[colIndex]
+      const cell = board[rowIndex][colIndex]
       if (cell === null) continue
-      if (cell === row[colIndex + 1]) {
-        board[rowIndex][colIndex + 1] = cell * 2
-        board[rowIndex][colIndex] = null
-        let currColIndex = colIndex
-        while (currColIndex < board[0].length) {
-          const cellRight = board[rowIndex][currColIndex]
-          if (cellRight !== null) break
+      let currColIndex = colIndex + 1
+      while (currColIndex <= board[0].length - 1) {
+        const cellRight = board[rowIndex][currColIndex]
+        if (cellRight === null) {
           currColIndex += 1
+          continue
         }
-        mergedCells.push([rowIndex, currColIndex])
+        if (cellRight === cell) {
+          board[rowIndex][colIndex] = null
+          board[rowIndex][currColIndex] = cell * 2
+          mergedCells.push([rowIndex, currColIndex])
+        } else {
+          board[rowIndex][colIndex] = null
+          board[rowIndex][currColIndex - 1] = cell
+        }
+        break
+      }
+      if (currColIndex === board[0].length) {
+        board[rowIndex][colIndex] = null
+        board[rowIndex][board[0].length - 1] = cell
       }
     }
-  })
-  shiftCellsRight(board)
+  }
   return [board, mergedCells]
 }
 function isLeftPossible(board: Board): boolean {
