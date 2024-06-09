@@ -3,7 +3,7 @@ import { GameContext } from "../contexts/GameContext";
 import "../css/Grid.css";
 
 const Grid = () => {
-  const [{ board, status }, setGameStatus] = useContext(GameContext);
+  const [{ board, status, newCells }, setGameStatus] = useContext(GameContext);
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.repeat) return;
@@ -42,11 +42,19 @@ const Grid = () => {
   return (
     <div className="grid">
       {board.map((row, rowIndex) =>
-        row.map((cell, colIndex) => (
-          <div key={`${rowIndex}-${colIndex}`} className="cell">
-            {cell}
-          </div>
-        ))
+        row.map((cell, colIndex) => {
+          let className = "cell";
+          if (
+            newCells.find(([row, col]) => row === rowIndex && col === colIndex)
+          ) {
+            className = "cell cell-appear";
+          }
+          return (
+            <div key={`${rowIndex}-${colIndex}`} className={className}>
+              <span>{cell}</span>
+            </div>
+          );
+        })
       )}
     </div>
   );

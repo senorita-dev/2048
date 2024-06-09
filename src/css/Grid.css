@@ -13,3 +13,17 @@
 	border: 1px solid black;
 	font-size: x-large;
 }
+
+.cell-appear > span {
+	animation: cellAppear 0.2s ease-in-out
+}
+
+@keyframes cellAppear {
+	0% {
+		transform: scale(0);
+	}
+
+	100% {
+		transform: scale(1);
+	}
+}
