@@ -15,9 +15,9 @@
 	width: 100%;
 	height: 100%;
 	outline: solid 1px black;
-	--cell-appear-duration: 5s;
-	--cell-merge-duration: 20s;
-	--cell-slide-duration: 20s;
+	--cell-appear-duration: 0.2s;
+	--cell-merge-duration: 0.2s;
+	--cell-slide-duration: 0.2s;
 	--cell-appear-delay: 0s;
 	--cell-merge-delay: 0s;
 	--cell-slide-delay: 0s;
