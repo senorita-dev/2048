@@ -46,16 +46,15 @@ const Grid = () => {
         row.map((cell, colIndex) => {
           let transform
           let className = 'cell'
+          const prevPosition = movedCells.find(
+            (movedCell) => movedCell[2] === rowIndex && movedCell[3] === colIndex,
+          )
           if (newCells.find(([row, col]) => row === rowIndex && col === colIndex)) {
             className += ' cell-appear'
           }
           if (mergedCells.find(([row, col]) => row === rowIndex && col === colIndex)) {
             className += ' cell-merged'
-          }
-          const prevPosition = movedCells.find(
-            (movedCell) => movedCell[2] === rowIndex && movedCell[3] === colIndex,
-          )
-          if (prevPosition !== undefined) {
+          } else if (prevPosition !== undefined) {
             const [prevRowIndex, prevColIndex] = prevPosition
             const [rowDiff, colDiff] = [prevRowIndex - rowIndex, prevColIndex - colIndex]
             transform = `translate(${colDiff * 100}%, ${rowDiff * 100}%)`
@@ -65,9 +64,9 @@ const Grid = () => {
             className += ` cell-${cell}`
           }
           return (
-            <div key={`${rowIndex}-${colIndex}`} className='cell-container'>
+            <div key={`${rowIndex}-${colIndex}`} className="cell-container">
               <div className={className} style={{ transform }}>
-                <span>{cell}</span>
+                <div className="cell-content">{cell}</div>
               </div>
             </div>
           )

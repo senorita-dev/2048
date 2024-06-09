@@ -14,37 +14,45 @@
 .cell {
 	width: 100%;
 	height: 100%;
+	outline: solid 1px black;
+	--cell-appear-duration: 5s;
+	--cell-merge-duration: 20s;
+	--cell-slide-duration: 20s;
+	--cell-appear-delay: 0s;
+	--cell-merge-delay: 0s;
+	--cell-slide-delay: 0s;
+}
+
+.cell>.cell-content {
+	width: 100%;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	outline: solid 1px black;
 }
 
-.cell-appear>span {
-	animation: cellAppear 0.2s ease-in-out
+.cell-appear {
+	transform: scale(0);
+	animation: var(--cell-appear-duration) cellAppear var(--cell-appear-delay) ease-in-out forwards;
 }
 
 @keyframes cellAppear {
-	0% {
-		transform: scale(0);
-	}
-
 	100% {
 		transform: scale(1);
 	}
 }
 
-.cell-merged>span {
-	animation: cellMerged 0.2s ease-in-out;
+.cell-merged  {
+	animation: var(--cell-merge-duration) cellMerged var(--cell-merge-delay) ease-in-out;
 }
 
 @keyframes cellMerged {
 	0% {
-		transform: scale(0);
+		transform: scale(1);
 	}
 
 	50% {
-		transform: scale(1.2);
+		transform: scale(1.05);
 	}
 
 	100% {
@@ -53,7 +61,7 @@
 }
 
 .cell-moved {
-	animation: slideCell 0.2s ease-out forwards;
+	animation: var(--cell-slide-duration) slideCell var(--cell-slide-delay) ease-out forwards;
 }
 
 @keyframes slideCell {
