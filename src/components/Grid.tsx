@@ -3,8 +3,8 @@ import { GameContext } from '../contexts/GameContext'
 import '../css/Grid.css'
 
 const Grid = () => {
-  const [{ board, status, newCells, mergedCells, movedCells }, setGameStatus] =
-    useContext(GameContext)
+  const [gameStatus, setGameStatus] = useContext(GameContext)
+  const { board, status, prevBoard, newCells, mergedCells, movedCells } = gameStatus
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.repeat) return
@@ -30,6 +30,8 @@ const Grid = () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
+  console.log('previousBoard: ', prevBoard)
+  console.log('currentBoard: ', board)
   switch (status) {
     case 'ongoing':
       break

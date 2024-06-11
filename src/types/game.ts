@@ -17,6 +17,7 @@ type LegalMoveState = {
 }
 interface GameState {
   board: Board
+  prevBoard: Board | null
   status: GameStatus
   canMove: LegalMoveState
   score: number

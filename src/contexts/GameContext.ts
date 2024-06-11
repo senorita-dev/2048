@@ -11,6 +11,7 @@ const cell2Position = generateNewCell(initialBoard)
 
 export const initialGameState: GameState = {
   board: initialBoard,
+  prevBoard: null,
   status: 'ongoing',
   canMove: getCanMove(initialBoard),
   score: 0,
@@ -22,6 +23,7 @@ export const initialGameState: GameState = {
 export const gameReducer = (state: GameState, action: GameAction): GameState => {
   const { board, status, score } = state
   const copyBoard: Board = JSON.parse(JSON.stringify(board))
+  const prevBoard: Board = JSON.parse(JSON.stringify(board))
   let newBoard: Board
   let mergeSum: number
   let mergedCells: [number, number][]
@@ -37,6 +39,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
     const cell2Position = generateNewCell(newBoard)
     return {
       board: newBoard,
+      prevBoard: null,
       status: 'ongoing',
       canMove: getCanMove(newBoard),
       score: 0,
@@ -68,6 +71,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
   }
   const newState: GameState = {
     board: newBoard,
+    prevBoard,
     status: 'ongoing',
     canMove: getCanMove(newBoard),
     score: score + mergeSum,
