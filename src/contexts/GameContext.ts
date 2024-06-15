@@ -1,17 +1,12 @@
 import { createContext } from 'react'
 
-const initialBoard: Board = [
-  [null, null, null, null],
-  [null, null, null, null],
-  [null, null, null, null],
-  [null, null, null, null],
-]
+const initialBoard = getEmptyBoard()
 const cell1Position = generateNewCell(initialBoard)
 const cell2Position = generateNewCell(initialBoard)
 
 export const initialGameState: GameState = {
   board: initialBoard,
-  prevBoard: null,
+  prevBoard: getEmptyBoard(),
   status: 'ongoing',
   canMove: getCanMove(initialBoard),
   score: 0,
@@ -29,17 +24,12 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
   let mergedCells: [number, number][]
   let movedCells: [number, number, number, number][]
   if (action === 'newGame') {
-    newBoard = [
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-      [null, null, null, null],
-    ]
+    newBoard = getEmptyBoard()
     const cell1Position = generateNewCell(newBoard)
     const cell2Position = generateNewCell(newBoard)
     return {
       board: newBoard,
-      prevBoard: null,
+      prevBoard: getEmptyBoard(),
       status: 'ongoing',
       canMove: getCanMove(newBoard),
       score: 0,
@@ -93,7 +83,14 @@ export const GameContext = createContext<[GameState, React.Dispatch<GameAction>]
   initialGameState,
   () => {},
 ])
-
+function getEmptyBoard(): Board {
+  return [
+    [null, null, null, null],
+    [null, null, null, null],
+    [null, null, null, null],
+    [null, null, null, null],
+  ]
+}
 function getEmptyCells(board: Board): [number, number][] {
   const emptyCells: [number, number][] = []
   board.forEach((row, rowIndex) => {
