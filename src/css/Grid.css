@@ -37,7 +37,7 @@
 	}
 }
 
-.cell-merged  {
+.cell-merged {
 	animation: var(--cell-merge-duration) cellMerged var(--cell-merge-delay) ease-in-out;
 }
 

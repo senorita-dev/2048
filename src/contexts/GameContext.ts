@@ -149,7 +149,9 @@ function moveUp(
   }
   return [board, mergeSum, mergedCells, movedCells]
 }
-function moveDown(board: Board): [Board, number, [number, number][], [number, number, number, number][]] {
+function moveDown(
+  board: Board,
+): [Board, number, [number, number][], [number, number, number, number][]] {
   let mergeSum = 0
   const mergedCells: [number, number][] = []
   const movedCells: [number, number, number, number][] = []
@@ -185,7 +187,9 @@ function moveDown(board: Board): [Board, number, [number, number][], [number, nu
   }
   return [board, mergeSum, mergedCells, movedCells]
 }
-function moveLeft(board: Board): [Board, number, [number, number][], [number, number, number, number][]] {
+function moveLeft(
+  board: Board,
+): [Board, number, [number, number][], [number, number, number, number][]] {
   let mergeSum = 0
   const mergedCells: [number, number][] = []
   const movedCells: [number, number, number, number][] = []
@@ -221,7 +225,9 @@ function moveLeft(board: Board): [Board, number, [number, number][], [number, nu
   }
   return [board, mergeSum, mergedCells, movedCells]
 }
-function moveRight(board: Board): [Board, number, [number, number][], [number, number, number, number][]] {
+function moveRight(
+  board: Board,
+): [Board, number, [number, number][], [number, number, number, number][]] {
   let mergeSum = 0
   const mergedCells: [number, number][] = []
   const movedCells: [number, number, number, number][] = []
