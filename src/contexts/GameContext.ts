@@ -114,33 +114,38 @@ function moveUp(
   let mergeSum = 0
   const mergedCells: [number, number][] = []
   const movedCells: [number, number, number, number][] = []
-  for (let rowIndex = 1; rowIndex < board.length; rowIndex++) {
-    for (let colIndex = 0; colIndex < board[0].length; colIndex++) {
+  for (let colIndex = 0; colIndex < board[0].length; colIndex++) {
+    let topEdge = 0
+    for (let rowIndex = 1; rowIndex < board.length; rowIndex++) {
       const cell = board[rowIndex][colIndex]
       if (cell === null) continue
-      let currRowIndex = rowIndex - 1
-      while (currRowIndex >= 0) {
-        const cellAbove = board[currRowIndex][colIndex]
-        if (cellAbove === null) {
-          currRowIndex -= 1
-          continue
-        }
-        if (cellAbove === cell) {
+      let currentRowIndex = rowIndex
+      while (currentRowIndex > topEdge) {
+        currentRowIndex--
+        const currentCell = board[currentRowIndex][colIndex]
+        if (currentCell === null) {
+        } else if (currentCell !== cell) {
           board[rowIndex][colIndex] = null
-          board[currRowIndex][colIndex] = cell * 2
+          board[currentRowIndex + 1][colIndex] = cell
+          topEdge = currentRowIndex + 1
+          movedCells.push([rowIndex, colIndex, currentRowIndex + 1, colIndex])
+          break
+        } else if (currentCell === cell) {
+          board[rowIndex][colIndex] = null
+          board[currentRowIndex][colIndex] = cell * 2
+          topEdge = currentRowIndex + 1
           mergeSum += cell * 2
-          mergedCells.push([currRowIndex, colIndex])
-        } else {
-          board[rowIndex][colIndex] = null
-          board[currRowIndex + 1][colIndex] = cell
-          movedCells.push([rowIndex, colIndex, currRowIndex + 1, colIndex])
+          mergedCells.push([currentRowIndex, colIndex])
+          movedCells.push([rowIndex, colIndex, currentRowIndex, colIndex])
+          break
         }
-        break
-      }
-      if (currRowIndex === -1) {
-        board[rowIndex][colIndex] = null
-        board[0][colIndex] = cell
-        movedCells.push([rowIndex, colIndex, 0, colIndex])
+        if (currentRowIndex === topEdge) {
+          board[topEdge][colIndex] = cell
+          board[rowIndex][colIndex] = null
+          topEdge = currentRowIndex
+          movedCells.push([rowIndex, colIndex, topEdge, colIndex])
+          break
+        }
       }
     }
   }
@@ -152,33 +157,38 @@ function moveDown(
   let mergeSum = 0
   const mergedCells: [number, number][] = []
   const movedCells: [number, number, number, number][] = []
-  for (let rowIndex = board.length - 2; rowIndex >= 0; rowIndex--) {
-    for (let colIndex = 0; colIndex < board[0].length; colIndex++) {
+  for (let colIndex = 0; colIndex < board[0].length; colIndex++) {
+    let bottomEdge = board.length - 1
+    for (let rowIndex = board.length - 2; rowIndex >= 0; rowIndex--) {
       const cell = board[rowIndex][colIndex]
       if (cell === null) continue
-      let currRowIndex = rowIndex + 1
-      while (currRowIndex <= board.length - 1) {
-        const cellBelow = board[currRowIndex][colIndex]
-        if (cellBelow === null) {
-          currRowIndex += 1
-          continue
-        }
-        if (cellBelow === cell) {
+      let currentRowIndex = rowIndex
+      while (currentRowIndex < bottomEdge) {
+        currentRowIndex++
+        const currentCell = board[currentRowIndex][colIndex]
+        if (currentCell === null) {
+        } else if (currentCell !== cell) {
           board[rowIndex][colIndex] = null
-          board[currRowIndex][colIndex] = cell * 2
+          board[currentRowIndex - 1][colIndex] = cell
+          bottomEdge = currentRowIndex - 1
+          movedCells.push([rowIndex, colIndex, currentRowIndex - 1, colIndex])
+          break
+        } else if (currentCell === cell) {
+          board[rowIndex][colIndex] = null
+          board[currentRowIndex][colIndex] = cell * 2
+          bottomEdge = currentRowIndex - 1
           mergeSum += cell * 2
-          mergedCells.push([currRowIndex, colIndex])
-        } else {
-          board[rowIndex][colIndex] = null
-          board[currRowIndex - 1][colIndex] = cell
-          movedCells.push([rowIndex, colIndex, currRowIndex - 1, colIndex])
+          mergedCells.push([currentRowIndex, colIndex])
+          movedCells.push([rowIndex, colIndex, currentRowIndex, colIndex])
+          break
         }
-        break
-      }
-      if (currRowIndex === board.length) {
-        board[rowIndex][colIndex] = null
-        board[board.length - 1][colIndex] = cell
-        movedCells.push([rowIndex, colIndex, board.length - 1, colIndex])
+        if (currentRowIndex === bottomEdge) {
+          board[bottomEdge][colIndex] = cell
+          board[rowIndex][colIndex] = null
+          bottomEdge = currentRowIndex
+          movedCells.push([rowIndex, colIndex, bottomEdge, colIndex])
+          break
+        }
       }
     }
   }
@@ -190,36 +200,41 @@ function moveLeft(
   let mergeSum = 0
   const mergedCells: [number, number][] = []
   const movedCells: [number, number, number, number][] = []
-  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-    for (let colIndex = 1; colIndex < board[0].length; colIndex++) {
-      const cell = board[rowIndex][colIndex]
+  board.map((row, rowIndex) => {
+    let leftEdge = 0
+    for (let colIndex = 1; colIndex < row.length; colIndex++) {
+      const cell = row[colIndex]
       if (cell === null) continue
-      let currColIndex = colIndex - 1
-      while (currColIndex >= 0) {
-        const cellLeft = board[rowIndex][currColIndex]
-        if (cellLeft === null) {
-          currColIndex -= 1
-          continue
-        }
-        if (cellLeft === cell) {
-          board[rowIndex][colIndex] = null
-          board[rowIndex][currColIndex] = cell * 2
+      let currentColIndex = colIndex
+      while (currentColIndex > leftEdge) {
+        currentColIndex--
+        const currentCell = row[currentColIndex]
+        if (currentCell === null) {
+        } else if (currentCell !== cell) {
+          row[colIndex] = null
+          row[currentColIndex + 1] = cell
+          leftEdge = currentColIndex + 1
+          movedCells.push([rowIndex, colIndex, rowIndex, currentColIndex + 1])
+          break
+        } else if (currentCell === cell) {
+          row[colIndex] = null
+          row[currentColIndex] = cell * 2
+          leftEdge = currentColIndex + 1
           mergeSum += cell * 2
-          mergedCells.push([rowIndex, currColIndex])
-        } else {
-          board[rowIndex][colIndex] = null
-          board[rowIndex][currColIndex + 1] = cell
-          movedCells.push([rowIndex, colIndex, rowIndex, currColIndex + 1])
+          mergedCells.push([rowIndex, currentColIndex])
+          movedCells.push([rowIndex, colIndex, rowIndex, currentColIndex])
+          break
         }
-        break
-      }
-      if (currColIndex === -1) {
-        board[rowIndex][colIndex] = null
-        board[rowIndex][0] = cell
-        movedCells.push([rowIndex, colIndex, rowIndex, 0])
+        if (currentColIndex === leftEdge) {
+          row[leftEdge] = cell
+          row[colIndex] = null
+          leftEdge = currentColIndex
+          movedCells.push([rowIndex, colIndex, rowIndex, leftEdge])
+          break
+        }
       }
     }
-  }
+  })
   return [board, mergeSum, mergedCells, movedCells]
 }
 function moveRight(
@@ -228,36 +243,41 @@ function moveRight(
   let mergeSum = 0
   const mergedCells: [number, number][] = []
   const movedCells: [number, number, number, number][] = []
-  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-    for (let colIndex = board[0].length - 2; colIndex >= 0; colIndex--) {
-      const cell = board[rowIndex][colIndex]
+  board.map((row, rowIndex) => {
+    let rightEdge = row.length - 1
+    for (let colIndex = row.length - 2; colIndex >= 0; colIndex--) {
+      const cell = row[colIndex]
       if (cell === null) continue
-      let currColIndex = colIndex + 1
-      while (currColIndex <= board[0].length - 1) {
-        const cellRight = board[rowIndex][currColIndex]
-        if (cellRight === null) {
-          currColIndex += 1
-          continue
-        }
-        if (cellRight === cell) {
-          board[rowIndex][colIndex] = null
-          board[rowIndex][currColIndex] = cell * 2
+      let currentColIndex = colIndex
+      while (currentColIndex < rightEdge) {
+        currentColIndex++
+        const currentCell = row[currentColIndex]
+        if (currentCell === null) {
+        } else if (currentCell !== cell) {
+          row[colIndex] = null
+          row[currentColIndex - 1] = cell
+          rightEdge = currentColIndex - 1
+          movedCells.push([rowIndex, colIndex, rowIndex, currentColIndex - 1])
+          break
+        } else if (currentCell === cell) {
+          row[colIndex] = null
+          row[currentColIndex] = cell * 2
+          rightEdge = currentColIndex - 1
           mergeSum += cell * 2
-          mergedCells.push([rowIndex, currColIndex])
-        } else {
-          board[rowIndex][colIndex] = null
-          board[rowIndex][currColIndex - 1] = cell
-          movedCells.push([rowIndex, colIndex, rowIndex, currColIndex - 1])
+          mergedCells.push([rowIndex, currentColIndex])
+          movedCells.push([rowIndex, colIndex, rowIndex, currentColIndex])
+          break
         }
-        break
-      }
-      if (currColIndex === board[0].length) {
-        board[rowIndex][colIndex] = null
-        board[rowIndex][board[0].length - 1] = cell
-        movedCells.push([rowIndex, colIndex, rowIndex, board[0].length - 1])
+        if (currentColIndex === rightEdge) {
+          row[rightEdge] = cell
+          row[colIndex] = null
+          rightEdge = currentColIndex
+          movedCells.push([rowIndex, colIndex, rowIndex, rightEdge])
+          break
+        }
       }
     }
-  }
+  })
   return [board, mergeSum, mergedCells, movedCells]
 }
 function isLeftPossible(board: Board): boolean {
