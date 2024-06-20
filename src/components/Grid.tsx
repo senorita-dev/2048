@@ -30,8 +30,6 @@ const Grid = () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
-  console.log('previousBoard: ', prevBoard)
-  console.log('currentBoard: ', board)
   switch (status) {
     case 'ongoing':
       break
@@ -43,37 +41,29 @@ const Grid = () => {
       throw new Error('Invalid status')
   }
   return (
-    <div className="grid">
-      {board.map((row, rowIndex) =>
-        row.map((cell, colIndex) => {
-          let transform
-          let className = 'cell'
-          const prevPosition = movedCells.find(
-            (movedCell) => movedCell[2] === rowIndex && movedCell[3] === colIndex,
-          )
-          if (newCells.find(([row, col]) => row === rowIndex && col === colIndex)) {
-            className += ' cell-appear'
-          }
-          if (mergedCells.find(([row, col]) => row === rowIndex && col === colIndex)) {
-            className += ' cell-merged'
-          } else if (prevPosition !== undefined) {
-            const [prevRowIndex, prevColIndex] = prevPosition
-            const [rowDiff, colDiff] = [prevRowIndex - rowIndex, prevColIndex - colIndex]
-            transform = `translate(${colDiff * 100}%, ${rowDiff * 100}%)`
-            className += ' cell-moved'
-          }
-          if (cell !== null) {
-            className += ` cell-${cell}`
-          }
-          return (
-            <div key={`${rowIndex}-${colIndex}`} className="cell-container">
-              <div className={className} style={{ transform }}>
-                {cell}
-              </div>
-            </div>
-          )
-        }),
-      )}
+    <div className="grid-container">
+      <div className="grid">
+        {board.map((row, rowIndex) =>
+          row.map((cell, colIndex) => {
+            if (cell === null) return null
+            const key = `${rowIndex}-${colIndex}`
+            const top = `${rowIndex * 25}%`
+            const left = `${colIndex * 25}%`
+            const className = `cell cell-${cell}`
+            return <div className={className} key={key} style={{ top, left }}>{cell}</div>
+          }),
+        )}
+      </div>
+      <div className="grid">
+        {board.map((row, rowIndex) =>
+          row.map((_cell, colIndex) => {
+            const key = `${rowIndex}-${colIndex}`
+            const top = `${rowIndex * 25}%`
+            const left = `${colIndex * 25}%`
+            return <div className="cell-overlay" key={key} style={{ top, left }}></div>
+          }),
+        )}
+      </div>
     </div>
   )
 }

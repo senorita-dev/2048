@@ -1,68 +1,39 @@
-.grid {
-	display: grid;
-	grid-template-columns: repeat(4, 4fr);
-	outline: 1px solid black;
-}
-
-.cell-container {
-	width: 80px;
-	height: 80px;
-	font-size: x-large;
-	border: solid 1px black;
+.grid-container {
+	--grid-size: 500px;
+	--border-width: 3.5px;
+	--background-color: #bbada0;
+	--font-size: 3rem;
+	width: var(--grid-size);
+	height: var(--grid-size);
+	position: relative;
+	background-color: var(--background-color);
+	border: var(--border-width) solid black;
+	border-radius: 6px;
 	box-sizing: border-box;
 }
 
-.cell {
+.grid {
 	width: 100%;
 	height: 100%;
+	position: absolute;
+}
+
+.cell {
+	width: 25%;
+	height: 25%;
+	position: absolute;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	--cell-appear-duration: 0.2s;
-	--cell-merge-duration: 0.2s;
-	--cell-slide-duration: 0.2s;
-	--cell-appear-delay: 0s;
-	--cell-merge-delay: 0s;
-	--cell-slide-delay: 0s;
+	font-size: var(--font-size);
 }
 
-.cell-appear {
-	transform: scale(0);
-	animation: var(--cell-appear-duration) cellAppear var(--cell-appear-delay) ease-in-out forwards;
-}
-
-@keyframes cellAppear {
-	100% {
-		transform: scale(1);
-	}
-}
-
-.cell-merged {
-	animation: var(--cell-merge-duration) cellMerged var(--cell-merge-delay) ease-in-out;
-}
-
-@keyframes cellMerged {
-	0% {
-		transform: scale(1);
-	}
-
-	50% {
-		transform: scale(1.05);
-	}
-
-	100% {
-		transform: scale(1);
-	}
-}
-
-.cell-moved {
-	animation: var(--cell-slide-duration) slideCell var(--cell-slide-delay) ease-out forwards;
-}
-
-@keyframes slideCell {
-	100% {
-		transform: translate(0, 0);
-	}
+.cell-overlay {
+	width: 25%;
+	height: 25%;
+	position: absolute;
+	border: var(--border-width) solid black;
+	box-sizing: border-box;
 }
 
 .cell-2 {
