@@ -57,25 +57,25 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
       ;[newBoard, mergeSum, mergedCells, movedCells] = moveRight(copyBoard)
       break
     default:
-      return state
+      return { ...state, status: 'lost' }
   }
+  const newCellPosition = generateNewCell(newBoard)
   const newState: GameState = {
     board: newBoard,
     prevBoard,
     status: 'ongoing',
     canMove: getCanMove(newBoard),
     score: score + mergeSum,
-    newCells: [],
+    newCells: [newCellPosition],
     mergedCells: mergedCells,
     movedCells: movedCells,
   }
   if (Object.values(newState.canMove).every((value) => value === false)) {
     newState.status = 'lost'
-    return newState
   }
-  const newCellPosition = generateNewCell(newBoard)
-  newState.newCells = [newCellPosition]
-  newState.canMove = getCanMove(newBoard)
+  if (Object.values(newState.board).flat().some((cell) => cell === 2048)) {
+    newState.status = 'won'
+  }
   return newState
 }
 

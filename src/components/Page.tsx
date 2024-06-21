@@ -10,14 +10,15 @@ const Page = () => {
   const [{ status }] = useContext(GameContext)
   return (
     <div id="page">
+      {status === 'ongoing' && <br />}
+      {status === 'won' && <b>You won! Play again?</b>}
+      {status === 'lost' && <b>You lost! Try again?</b>}
       <div>
         <NewGameButton />
       </div>
       <Score />
       <Grid />
       <BottomControls />
-      {status === 'won' && <div>You won!</div>}
-      {status === 'lost' && <div>You lost!</div>}
     </div>
   )
 }

@@ -4,7 +4,7 @@ import '../css/Grid.css'
 
 const Grid = () => {
   const [gameStatus, setGameStatus] = useContext(GameContext)
-  const { board, status, prevBoard, newCells, mergedCells, movedCells } = gameStatus
+  const { board, prevBoard, newCells, mergedCells, movedCells } = gameStatus
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.repeat) return
@@ -30,16 +30,6 @@ const Grid = () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
-  switch (status) {
-    case 'ongoing':
-      break
-    case 'won':
-      break
-    case 'lost':
-      break
-    default:
-      throw new Error('Invalid status')
-  }
   return (
     <div className="grid-container">
       <div className="grid">
