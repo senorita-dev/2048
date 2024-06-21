@@ -1,8 +1,10 @@
 .grid-container {
 	--grid-size: 500px;
-	--border-width: 3.5px;
+	--border-width: 2px;
 	--background-color: #bbada0;
 	--font-size: 3rem;
+	--animation-delay: 0.1s;
+	--animation-duration: 0.1s;
 	width: var(--grid-size);
 	height: var(--grid-size);
 	position: relative;
@@ -18,10 +20,17 @@
 	position: absolute;
 }
 
-.cell {
+.cell-container {
 	width: 25%;
 	height: 25%;
 	position: absolute;
+	border: var(--border-width) solid transparent;
+	box-sizing: border-box;
+}
+
+.cell {
+	height: 100%;
+	width: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -29,12 +38,59 @@
 }
 
 .cell-overlay {
-	width: 25%;
-	height: 25%;
-	position: absolute;
-	border: var(--border-width) solid black;
-	box-sizing: border-box;
+	border-color: black;
 }
+
+.cell-moved {
+	animation: var(--animation-delay) moveCell 0s ease-in-out forwards;
+}
+
+@keyframes moveCell {
+	100% {
+		transform: translate(0, 0);
+	}
+}
+
+.cell-current {
+	visibility: hidden;
+	animation: showCell var(--animation-delay) ease-in-out forwards;
+}
+
+@keyframes showCell {
+	100% {
+		visibility: visible;
+	}
+}
+
+.cell-merged {
+	visibility: hidden;
+	animation: var(--animation-duration) mergeCell var(--animation-delay) ease-in-out forwards;
+}
+
+@keyframes mergeCell {
+	80% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+		visibility: visible;
+	}
+}
+
+.cell-new {
+	transform: scale(0);
+	animation: var(--animation-duration) newCell var(--animation-delay) ease-in-out forwards;
+}
+
+@keyframes newCell {
+	80% {
+		transform: scale(1.1);
+	}
+	100% {
+		transform: scale(1);
+	}
+}
+
 
 .cell-2 {
 	background-color: #eee4da
