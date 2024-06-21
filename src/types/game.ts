@@ -7,8 +7,8 @@ type Board = [
   [Cell, Cell, Cell, Cell],
   [Cell, Cell, Cell, Cell],
 ]
-type GameStatus = 'ongoing' | 'won' | 'lost'
-type GameAction = 'newGame' | 'moveUp' | 'moveDown' | 'moveLeft' | 'moveRight'
+type GameStatus = 'ongoing' | 'won' | 'lost' | 'continuedWonGame'
+type GameAction = 'newGame' | 'moveUp' | 'moveDown' | 'moveLeft' | 'moveRight' | 'continueWonGame'
 type LegalMoveState = {
   up: boolean
   down: boolean

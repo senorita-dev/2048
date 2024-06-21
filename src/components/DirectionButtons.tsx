@@ -8,7 +8,7 @@ import '../css/DirectionButtons.css'
 
 export const UpButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
   const [{ canMove, status }, setGameState] = useContext(GameContext)
-  const disabled = !canMove.up || status === 'lost'
+  const disabled = !canMove.up || status === 'lost' || status === 'won'
   return (
     <button
       id="up-button"
@@ -24,7 +24,7 @@ export const UpButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
 
 export const DownButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
   const [{ canMove, status }, setGameState] = useContext(GameContext)
-  const disabled = !canMove.down || status === 'lost'
+  const disabled = !canMove.down || status === 'lost' || status === 'won'
   return (
     <button
       id="down-button"
@@ -40,7 +40,7 @@ export const DownButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
 
 export const LeftButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
   const [{ canMove, status }, setGameState] = useContext(GameContext)
-  const disabled = !canMove.left || status === 'lost'
+  const disabled = !canMove.left || status === 'lost' || status === 'won'
   return (
     <button
       id="left-button"
@@ -56,7 +56,7 @@ export const LeftButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
 
 export const RightButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
   const [{ canMove, status }, setGameState] = useContext(GameContext)
-  const disabled = !canMove.right || status === 'lost'
+  const disabled = !canMove.right || status === 'lost' || status === 'won'
   return (
     <button
       id="right-button"

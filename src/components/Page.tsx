@@ -7,12 +7,27 @@ import Score from './Score'
 import { GameContext } from '../contexts/GameContext'
 
 const Page = () => {
-  const [{ status }] = useContext(GameContext)
+  const [{ status }, setGameStatus] = useContext(GameContext)
   return (
     <div id="page">
       {status === 'ongoing' && <br />}
-      {status === 'won' && <b>You won! Play again?</b>}
-      {status === 'lost' && <b>You lost! Try again?</b>}
+      {status === 'continuedWonGame' && <br />}
+      {status === 'won' && (
+        <b>
+          You won!{' '}
+          <a id="continue" onClick={() => setGameStatus('continueWonGame')}>
+            continue?
+          </a>
+        </b>
+      )}
+      {status === 'lost' && (
+        <b>
+          You lost!{' '}
+          <a id="try-again" onClick={() => setGameStatus('newGame')}>
+            Try again?
+          </a>
+        </b>
+      )}
       <div>
         <NewGameButton />
       </div>

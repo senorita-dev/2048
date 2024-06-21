@@ -38,6 +38,9 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
       movedCells: [],
     }
   }
+  if (action === 'continueWonGame') {
+    return { ...state, status: 'continuedWonGame' }
+  }
   if (status === 'lost' || status === 'won') return state
   switch (action) {
     case 'moveUp':
@@ -63,7 +66,7 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
   const newState: GameState = {
     board: newBoard,
     prevBoard,
-    status: 'ongoing',
+    status,
     canMove: getCanMove(newBoard),
     score: score + mergeSum,
     newCells: [newCellPosition],
@@ -73,7 +76,12 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
   if (Object.values(newState.canMove).every((value) => value === false)) {
     newState.status = 'lost'
   }
-  if (Object.values(newState.board).flat().some((cell) => cell === 2048)) {
+  if (
+    status !== 'continuedWonGame' &&
+    Object.values(newState.board)
+      .flat()
+      .some((cell) => cell === 2048)
+  ) {
     newState.status = 'won'
   }
   return newState
