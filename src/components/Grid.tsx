@@ -43,6 +43,20 @@ const Grid = () => {
   return (
     <div className="grid-container">
       <div className="grid">
+        {board.map((row, rowIndex) =>
+          row.map((_cell, colIndex) => {
+            const key = `${rowIndex}-${colIndex}`
+            const top = `${rowIndex * 25}%`
+            const left = `${colIndex * 25}%`
+            return (
+              <div className="cell-container" key={key} style={{ top, left }}>
+                <div className="cell-background"></div>
+              </div>
+            )
+          }),
+        )}
+      </div>
+      <div className="grid">
         {prevBoard.map((row, rowIndex) =>
           row.map((cell, colIndex) => {
             if (cell === null) return null
@@ -93,18 +107,6 @@ const Grid = () => {
             </div>
           )
         })}
-      </div>
-      <div className="grid">
-        {board.map((row, rowIndex) =>
-          row.map((_cell, colIndex) => {
-            const key = `${rowIndex}-${colIndex}`
-            const top = `${rowIndex * 25}%`
-            const left = `${colIndex * 25}%`
-            return (
-              <div className="cell-container cell-overlay" key={key} style={{ top, left }}></div>
-            )
-          }),
-        )}
       </div>
     </div>
   )

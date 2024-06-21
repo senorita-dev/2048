@@ -1,6 +1,6 @@
 .grid-container {
 	--grid-size: 500px;
-	--border-width: 2px;
+	--border-width: 7.5px;
 	--background-color: #bbada0;
 	--font-size: 3rem;
 	--animation-delay: 0.1s;
@@ -9,7 +9,7 @@
 	height: var(--grid-size);
 	position: relative;
 	background-color: var(--background-color);
-	border: var(--border-width) solid black;
+	border: var(--border-width) solid transparent;
 	border-radius: 6px;
 	box-sizing: border-box;
 }
@@ -26,6 +26,7 @@
 	position: absolute;
 	border: var(--border-width) solid transparent;
 	box-sizing: border-box;
+	border-radius: 6px;
 }
 
 .cell {
@@ -35,10 +36,14 @@
 	justify-content: center;
 	align-items: center;
 	font-size: var(--font-size);
+	border-radius: 3px;
 }
 
-.cell-overlay {
-	border-color: black;
+.cell-background {
+	width: 100%;
+	height: 100%;
+	background-color: rgba(238, 228, 218, 0.35);
+	border-radius: 3px;
 }
 
 .cell-moved {
