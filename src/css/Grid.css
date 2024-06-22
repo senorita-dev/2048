@@ -11,11 +11,19 @@
 	border: var(--border-width) solid transparent;
 	border-radius: 6px;
 	box-sizing: border-box;
+	--font-size-1: 55px;
+	--font-size-2: 45px;
+	--font-size-3: 35px;
+	--font-size-4: 30px;
 }
 
 @media screen and (max-width: 480px) {
 	.grid-container {
 		--grid-size: calc(100vw - 4rem);
+		--font-size-1: 35px;
+		--font-size-2: 25px;
+		--font-size-3: 15px;
+		--font-size-4: 10px;
 	}
 }
 
@@ -110,72 +118,72 @@
 	background-color: #eee4da;
 	color: #776e65;
 	box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
-  font-size: 55px;
+  font-size: var(--font-size-1);
 }
 
 .cell-4 {
 	background-color: #eee1c9;
 	color: #776e65;
 	box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
-  font-size: 55px;
+  font-size: var(--font-size-1);
 }
 
 .cell-8 {
 	background-color: #f3b27a;
   color: #f9f6f2;
-  font-size: 55px;
+  font-size: var(--font-size-1);
 }
 
 .cell-16 {
 	background-color: #f69664;
 	color: #f9f6f2;
-  font-size: 55px;
+  font-size: var(--font-size-1);
 }
 
 .cell-32 {
 	background-color: #f77c5f;
 	color: #f9f6f2;
-  font-size: 55px;
+  font-size: var(--font-size-1);
 }
 
 .cell-64 {
 	background-color: #f75f3b;
 	color: #f9f6f2;
-  font-size: 55px;
+  font-size: var(--font-size-1);
 }
 
 .cell-128 {
 	background-color: #edd073;
 	color: #f9f6f2;
-  font-size: 45px;
+  font-size: var(--font-size-2);
 }
 
 .cell-256 {
 	background-color: #edcc62;
 	color: #f9f6f2;
-  font-size: 45px;
+  font-size: var(--font-size-2);
 }
 
 .cell-512 {
 	background-color: #edc950;
 	color: #f9f6f2;
-  font-size: 45px;
+  font-size: var(--font-size-2);
 }
 
 .cell-1024 {
 	background-color: #edc53f;
 	color: #f9f6f2;
-  font-size: 35px;
+  font-size: var(--font-size-3);
 }
 
 .cell-2048 {
 	background-color: #edc22e;
 	color: #f9f6f2;
-  font-size: 35px;
+  font-size: var(--font-size-3);
 }
 
 .cell-super {
 	background-color: #3c3a33;
 	color: #f9f6f2;
-  font-size: 30px;
+  font-size: var(--font-size-4);
 }
