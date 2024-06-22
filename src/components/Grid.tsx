@@ -65,7 +65,8 @@ const Grid = () => {
               left = `${toCol * 25}%`
               transform = `translate(${(fromCol - toCol) * 100}%, ${(fromRow - toRow) * 100}%)`
             }
-            const className = `cell cell-${cell}`
+
+            const className = cell <= 2048 ? `cell cell-${cell}` : 'cell cell-super'
             return (
               <div key={key} className={containerClassName} style={{ top, left, transform }}>
                 <div className={className}>{cell}</div>
@@ -78,7 +79,14 @@ const Grid = () => {
           const top = `${row * 25}%`
           const left = `${col * 25}%`
           const cell = board[row][col]
-          const className = `cell cell-${cell}`
+          let className
+          if (cell === null) {
+            className = 'cell'
+          } else if (cell <= 2048) {
+            className = `cell cell-${cell}`
+           } else {
+            className = 'cell cell-super'
+           }
           return (
             <div key={key} style={{ top, left }} className="cell-container cell-new">
               <div className={className}>{cell}</div>
@@ -90,7 +98,14 @@ const Grid = () => {
           const top = `${row * 25}%`
           const left = `${col * 25}%`
           const cell = board[row][col]
-          const className = `cell cell-${cell}`
+          let className
+          if (cell === null) {
+            className = 'cell'
+          } else if (cell <= 2048) {
+            className = `cell cell-${cell}`
+           } else {
+            className = 'cell cell-super'
+           }
           return (
             <div key={key} style={{ top, left }} className="cell-container cell-merged">
               <div className={className}>{cell}</div>

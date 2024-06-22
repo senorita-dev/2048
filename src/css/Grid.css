@@ -2,7 +2,6 @@
 	--grid-size: 500px;
 	--border-width: 7.5px;
 	--background-color: #bbada0;
-	--font-size: 3rem;
 	--animation-delay: 0.1s;
 	--animation-duration: 0.1s;
 	width: var(--grid-size);
@@ -35,8 +34,10 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	font-size: var(--font-size);
 	border-radius: 3px;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+	font-weight: bold;
+	overflow: hidden;
 }
 
 .cell-background {
@@ -76,6 +77,7 @@
 	80% {
 		transform: scale(1.1);
 	}
+
 	100% {
 		transform: scale(1);
 		visibility: visible;
@@ -91,6 +93,7 @@
 	80% {
 		transform: scale(1.1);
 	}
+
 	100% {
 		transform: scale(1);
 	}
@@ -98,53 +101,75 @@
 
 
 .cell-2 {
-	background-color: #eee4da
+	background-color: #eee4da;
+	color: #776e65;
+	box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
+  font-size: 55px;
 }
 
 .cell-4 {
 	background-color: #eee1c9;
+	color: #776e65;
+	box-shadow: 0 0 30px 10px rgba(243, 215, 116, 0), inset 0 0 0 1px rgba(255, 255, 255, 0);
+  font-size: 55px;
 }
 
 .cell-8 {
 	background-color: #f3b27a;
+  color: #f9f6f2;
+  font-size: 55px;
 }
 
 .cell-16 {
 	background-color: #f69664;
-	color: #ffffff;
+	color: #f9f6f2;
+  font-size: 55px;
 }
 
 .cell-32 {
 	background-color: #f77c5f;
-	color: #ffffff;
+	color: #f9f6f2;
+  font-size: 55px;
 }
 
 .cell-64 {
 	background-color: #f75f3b;
-	color: #ffffff;
+	color: #f9f6f2;
+  font-size: 55px;
 }
 
 .cell-128 {
 	background-color: #edd073;
-	color: #ffffff;
+	color: #f9f6f2;
+  font-size: 45px;
 }
 
 .cell-256 {
 	background-color: #edcc62;
-	color: #ffffff;
+	color: #f9f6f2;
+  font-size: 45px;
 }
 
 .cell-512 {
 	background-color: #edc950;
-	color: #ffffff;
+	color: #f9f6f2;
+  font-size: 45px;
 }
 
 .cell-1024 {
 	background-color: #edc53f;
-	color: #ffffff;
+	color: #f9f6f2;
+  font-size: 35px;
 }
 
 .cell-2048 {
 	background-color: #edc22e;
-	color: #ffffff;
+	color: #f9f6f2;
+  font-size: 35px;
+}
+
+.cell-super {
+	background-color: #3c3a33;
+	color: #f9f6f2;
+  font-size: 30px;
 }
