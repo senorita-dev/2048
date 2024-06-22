@@ -1,10 +1,11 @@
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import { GameContext } from '../contexts/GameContext'
 import '../css/Grid.css'
 
 const Grid = () => {
   const [gameStatus, setGameStatus] = useContext(GameContext)
   const { board, prevBoard, newCells, mergedCells, movedCells } = gameStatus
+  const [touchStart, setTouchStart] = useState<[number, number] | null>(null)
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.repeat) return
@@ -30,8 +31,39 @@ const Grid = () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [])
+  function handleTouchStart(event: React.TouchEvent) {
+    const touch = event.touches.item(0)
+    if (touch === null) return
+    const x = touch.clientX
+    const y = touch.clientY
+    setTouchStart([x, y])
+  }
+  function handleTouchEnd(event: React.TouchEvent) {
+    const touch = event.changedTouches.item(0)
+    if (touch === null) return
+    if (touchStart === null) return
+    const [startX, startY] = touchStart
+    const endX = touch.clientX
+    const endY = touch.clientY
+    const changeX = endX - startX
+    const changeY = endY - startY
+    if (Math.abs(changeX) > Math.abs(changeY)) {
+      if (changeX > 0) {
+        setGameStatus('moveRight')
+      } else {
+        setGameStatus('moveLeft')
+      }
+    } else {
+      if (changeY > 0) {
+        setGameStatus('moveDown')
+      } else {
+        setGameStatus('moveUp')
+      }
+    }
+    setTouchStart(null)
+  }
   return (
-    <div className="grid-container">
+    <div className="grid-container" onTouchStart={handleTouchStart} onTouchEnd={handleTouchEnd}>
       <div className="grid">
         {board.map((row, rowIndex) =>
           row.map((_cell, colIndex) => {
