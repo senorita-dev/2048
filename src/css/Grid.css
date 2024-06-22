@@ -1,5 +1,5 @@
 .grid-container {
-	--grid-size: 500px;
+	--grid-size: 470px;
 	--border-width: 7.5px;
 	--background-color: #bbada0;
 	--animation-delay: 0.1s;
@@ -11,6 +11,12 @@
 	border: var(--border-width) solid transparent;
 	border-radius: 6px;
 	box-sizing: border-box;
+}
+
+@media screen and (max-width: 480px) {
+	.grid-container {
+		--grid-size: calc(100vw - 4rem);
+	}
 }
 
 .grid {
