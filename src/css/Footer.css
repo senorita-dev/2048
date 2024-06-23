@@ -1,0 +1,52 @@
+#footer {
+  position: fixed;
+  bottom: 2rem;
+  left: 2rem;
+  right: 2rem;
+  text-align: center;
+  margin: 0 auto;
+  font-family: monospace;
+  font-size: 0.8rem;
+}
+
+#footer>p {
+  margin-block-start: 0;
+  margin-block-end: 1rem;
+}
+
+kbd {
+  --bg-color: #1a1a1a;
+  --sub-color: #f9f9f9;
+  color: var(--bg-color);
+  background-color: var(--sub-color);
+  display: inline-block;
+  margin: 0;
+  padding: 0.1rem 0.3rem;
+  border-radius: 0.1rem;
+  font-size: 1rem;
+  line-height: .7rem
+}
+
+@media (prefers-color-scheme: dark) {
+  #footer {
+    --bg-color: #f9f9f9;
+    --sub-color: #1a1a1a;
+  }
+}
+
+#github {
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#github>img {
+  height: 1rem;
+  margin: 0 .2rem;
+  vertical-align: middle;
+}
+
+#github:visited {
+  color: #747bff;
+}
