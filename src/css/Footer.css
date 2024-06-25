@@ -1,12 +1,9 @@
 #footer {
-  position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-  right: 2rem;
   text-align: center;
   margin: 0 auto;
   font-family: monospace;
   font-size: 0.8rem;
+  padding: 2rem;
 }
 
 #footer>p {

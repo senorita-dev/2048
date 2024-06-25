@@ -6,6 +6,8 @@
   margin: 0 auto;
   text-align: center;
   place-items: center;
+  justify-content: center;
+  flex-grow: 1;
 }
 
 #continue,
