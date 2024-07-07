@@ -5,8 +5,8 @@ const Footer = () => {
   return (
     <footer id="footer">
       <p>
-        <kbd className="key">↑</kbd> <kbd className="key">↓</kbd> <kbd className="key">←</kbd>{' '}
-        <kbd className="key">→</kbd> - use the arrow keys, buttons, or swipe to play
+        <kbd className="key">&uarr;</kbd> <kbd className="key">&darr;</kbd> <kbd className="key">&larr;</kbd>{' '}
+        <kbd className="key">&rarr;</kbd> - use the arrow keys, buttons, or swipe to play
       </p>
       <a
         href="https://github.com/senorita-dev/2048"
