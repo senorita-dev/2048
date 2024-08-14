@@ -1,8 +1,7 @@
-import { useContext } from 'react'
-import { GameContext } from '../contexts/GameContext'
+import { useGameDispatch } from '../contexts/GameContext'
 
 const NewGameButton = () => {
-  const [, setGameState] = useContext(GameContext)
+  const setGameState = useGameDispatch()
   return <button onClick={() => setGameState('newGame')}>New Game</button>
 }
 

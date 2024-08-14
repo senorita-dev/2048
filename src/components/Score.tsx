@@ -1,8 +1,7 @@
-import { useContext } from 'react'
-import { GameContext } from '../contexts/GameContext'
+import { useGameState } from '../contexts/GameContext'
 
 const Score = () => {
-  const [{ score }] = useContext(GameContext)
+  const { score } = useGameState()
   return <b>Score: {score}</b>
 }
 

@@ -1,4 +1,4 @@
-import { createContext } from 'react'
+import { createContext, useContext } from 'react'
 
 const initialBoard = getEmptyBoard()
 const cell1Position = generateNewCell(initialBoard)
@@ -45,19 +45,19 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
   switch (action) {
     case 'moveUp':
       if (!isUpPossible(copyBoard)) return state
-      ;[newBoard, mergeSum, mergedCells, movedCells] = moveUp(copyBoard)
+        ;[newBoard, mergeSum, mergedCells, movedCells] = moveUp(copyBoard)
       break
     case 'moveDown':
       if (!isDownPossible(copyBoard)) return state
-      ;[newBoard, mergeSum, mergedCells, movedCells] = moveDown(copyBoard)
+        ;[newBoard, mergeSum, mergedCells, movedCells] = moveDown(copyBoard)
       break
     case 'moveLeft':
       if (!isLeftPossible(copyBoard)) return state
-      ;[newBoard, mergeSum, mergedCells, movedCells] = moveLeft(copyBoard)
+        ;[newBoard, mergeSum, mergedCells, movedCells] = moveLeft(copyBoard)
       break
     case 'moveRight':
       if (!isRightPossible(copyBoard)) return state
-      ;[newBoard, mergeSum, mergedCells, movedCells] = moveRight(copyBoard)
+        ;[newBoard, mergeSum, mergedCells, movedCells] = moveRight(copyBoard)
       break
     default:
       return { ...state, status: 'lost' }
@@ -87,10 +87,18 @@ export const gameReducer = (state: GameState, action: GameAction): GameState => 
   return newState
 }
 
-export const GameContext = createContext<[GameState, React.Dispatch<GameAction>]>([
-  initialGameState,
-  () => {},
-])
+export const GameStateContext = createContext<GameState>(initialGameState)
+export const GameDispatchContext = createContext<React.Dispatch<GameAction>>(() => {})
+
+export function useGameState() {
+  const context = useContext(GameStateContext)
+  return context
+}
+export function useGameDispatch() {
+  const context = useContext(GameDispatchContext)
+  return context
+}
+
 function getEmptyBoard(): Board {
   return [
     [null, null, null, null],

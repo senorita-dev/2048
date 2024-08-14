@@ -1,9 +1,10 @@
-import { useEffect, useContext, useState } from 'react'
-import { GameContext } from '../contexts/GameContext'
+import { useEffect, useState } from 'react'
+import { useGameDispatch, useGameState } from '../contexts/GameContext'
 import '../css/Grid.css'
 
 const Grid = () => {
-  const [gameStatus, setGameStatus] = useContext(GameContext)
+  const gameStatus = useGameState()
+  const setGameStatus = useGameDispatch()
   const { board, prevBoard, newCells, mergedCells, movedCells } = gameStatus
   const [touchStart, setTouchStart] = useState<[number, number] | null>(null)
   useEffect(() => {
@@ -30,7 +31,7 @@ const Grid = () => {
     return () => {
       window.removeEventListener('keydown', handleKeyDown)
     }
-  }, [])
+  }, [setGameStatus])
   function handleTouchStart(event: React.TouchEvent) {
     const touch = event.touches.item(0)
     if (touch === null) return
@@ -116,9 +117,9 @@ const Grid = () => {
             className = 'cell'
           } else if (cell <= 2048) {
             className = `cell cell-${cell}`
-           } else {
+          } else {
             className = 'cell cell-super'
-           }
+          }
           return (
             <div key={key} style={{ top, left }} className="cell-container cell-new">
               <div className={className}>{cell}</div>
@@ -135,9 +136,9 @@ const Grid = () => {
             className = 'cell'
           } else if (cell <= 2048) {
             className = `cell cell-${cell}`
-           } else {
+          } else {
             className = 'cell cell-super'
-           }
+          }
           return (
             <div key={key} style={{ top, left }} className="cell-container cell-merged">
               <div className={className}>{cell}</div>

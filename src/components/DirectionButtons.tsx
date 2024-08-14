@@ -1,5 +1,5 @@
-import { ButtonHTMLAttributes, useContext } from 'react'
-import { GameContext } from '../contexts/GameContext'
+import { ButtonHTMLAttributes } from 'react'
+import { useGameDispatch, useGameState } from '../contexts/GameContext'
 import UpChevron from '../assets/up-chevron.svg?react'
 import DownChevron from '../assets/down-chevron.svg?react'
 import LeftChevron from '../assets/left-chevron.svg?react'
@@ -7,7 +7,8 @@ import RightChevron from '../assets/right-chevron.svg?react'
 import '../css/DirectionButtons.css'
 
 export const UpButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const [{ canMove, status }, setGameState] = useContext(GameContext)
+  const { canMove, status } = useGameState()
+  const setGameState = useGameDispatch()
   const disabled = !canMove.up || status === 'lost' || status === 'won'
   return (
     <button
@@ -23,7 +24,8 @@ export const UpButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
 }
 
 export const DownButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const [{ canMove, status }, setGameState] = useContext(GameContext)
+  const { canMove, status } = useGameState()
+  const setGameState = useGameDispatch()
   const disabled = !canMove.down || status === 'lost' || status === 'won'
   return (
     <button
@@ -39,7 +41,8 @@ export const DownButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
 }
 
 export const LeftButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const [{ canMove, status }, setGameState] = useContext(GameContext)
+  const { canMove, status } = useGameState()
+  const setGameState = useGameDispatch()
   const disabled = !canMove.left || status === 'lost' || status === 'won'
   return (
     <button
@@ -55,7 +58,8 @@ export const LeftButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
 }
 
 export const RightButton = (props: ButtonHTMLAttributes<HTMLButtonElement>) => {
-  const [{ canMove, status }, setGameState] = useContext(GameContext)
+  const { canMove, status } = useGameState()
+  const setGameState = useGameDispatch()
   const disabled = !canMove.right || status === 'lost' || status === 'won'
   return (
     <button

@@ -1,13 +1,13 @@
-import { useContext } from 'react'
 import '../css/Page.css'
 import BottomControls from './BottomControls'
 import Grid from './Grid'
 import NewGameButton from './NewGameButton'
 import Score from './Score'
-import { GameContext } from '../contexts/GameContext'
+import { useGameDispatch, useGameState } from '../contexts/GameContext'
 
 const Page = () => {
-  const [{ status }, setGameStatus] = useContext(GameContext)
+  const { status } = useGameState()
+  const setGameStatus = useGameDispatch()
   return (
     <div id="page">
       {status === 'ongoing' && <br />}
