@@ -5,7 +5,6 @@
 I learnt how to use React useReducers & maintain a pure state.
 The grid rendering layout, CSS animations, and an efficient move algorithm were tricky to figure out at first!
 
-This project was built using Typescript, React, Vite and deployed using Vercel.
+This project was built using Typescript and React, and deployed manually to a DigitalOcean server hosting my website.
 
-
-It is available here: https://2048-kohl-chi.vercel.app/
+It is available here: https://rensaito.com/projects/2048/
